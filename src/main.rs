@@ -1,7 +1,7 @@
 use std::fs::File;
 use std::io::prelude::*;
 
-// extern crate rjson;
+extern crate rjson;
 // use rjson::*;
 
 fn main() {

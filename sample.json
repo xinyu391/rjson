@@ -2,9 +2,11 @@
     "key"  : "name",  
     "num":34,
     "ids":[12,43,566],
+    "check":false,
     "lang":{
-        "code":"zh",
-        "desc":"chinese",
-        "size":333
+        "country":"china",
+        "code":3.9,
+        "lang":"zh"
     }
+   
 }

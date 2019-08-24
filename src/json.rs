@@ -1,7 +1,6 @@
-use std::fs::File;
-use std::io::prelude::*;
-use std::collections::HashMap;
 
+use std::collections::HashMap;
+use std::ops::Index;
 
 
 // pub mod rjson{
@@ -20,14 +19,28 @@ pub enum Value{
 pub struct Object{
     items : HashMap<String,Value>,
 }
+impl Index<&str> for Object{
+    type Output = Value;
+    fn index(&self, key :&str)->&Value{
+        &self.items[key]
+    }
+}
 impl Object{
     fn new()->Object{
         Object{items:HashMap::new()}
     }
+    pub fn get(& self, key : &str)->&Value{
+        &self.items[key]
+    }
 }
 pub fn parse(content :&String)->Object{
     let mut chars = content.chars().peekable();
-    let obj =  read_object(&mut chars);
+    let t = read_token(&mut chars);
+    if let Token::StartObj = t{
+        let obj =  read_object(&mut chars);
+        return obj;
+    }
+    let obj =  Object::new();
     obj 
 }
 fn read_object(chars: &mut std::iter::Peekable<std::str::Chars>)->Object{
@@ -39,8 +52,8 @@ fn read_object(chars: &mut std::iter::Peekable<std::str::Chars>)->Object{
         } else {
             println!("{:?}", t);
 
-            if let Token::StartObj=t{
-                obj = Object::new();
+            if let Token::EndObj=t{
+                break;
             }
             if let Token::String(s)=t{
                 // key s
@@ -71,6 +84,9 @@ fn read_object(chars: &mut std::iter::Peekable<std::str::Chars>)->Object{
                         }
                         Token::String(s) =>{
                             obj.items.insert(key, Value::String(s));
+                        }
+                        Token::Null =>{
+                            obj.items.insert(key, Value::Null);
                         }
                         _ => (),
                     }   
@@ -120,7 +136,7 @@ enum Token {
     Float(f64),
     Colon,
     Null,
-    Word(String), // true/false/null/number
+    // Word(String), // true/false/null/numbers
     None,
 }
 
@@ -156,7 +172,7 @@ fn read_token(chars: &mut std::iter::Peekable<std::str::Chars>) -> Token {
                     if word == "null" {
                         return Token::Null;
                     }
-                    if let Some(i) = word.find('.'){
+                    if let Some(_i) = word.find('.'){
                         let f :f64 = word.parse().unwrap();
                         return Token::Float(f);
                     }else{

@@ -15,8 +15,10 @@ fn main() {
     // let n :rjson::Sxx;
     
 
-    let  obj :rjson::Object = rjson::parse(&content);
+    let obj = rjson::parse(&content);
     println!("{:?}",obj);
-    
+    println!("{:?}",obj["FirstName"]);
+    println!("{:?}",obj["Age"]);
+    println!("{:?}", obj.get("PhoneNumbers"));
     println!();
 }

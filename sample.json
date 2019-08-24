@@ -1,12 +1,15 @@
-{   
-    "key"  : "name",  
-    "num":34,
-    "ids":[12,43,566],
-    "check":false,
-    "lang":{
-        "country":"china",
-        "code":3.9,
-        "lang":"zh"
-    }
-   
+{
+    "FirstName": "John",
+    "LastName": "Doe",
+    "Age": 43,
+    "Mail":true,
+    "Address": {
+        "Street": "Downing Street 10",
+        "City": "London",
+        "Country": "Great Britain"
+    },
+    "PhoneNumbers": [
+        "+44 1234567",
+        "+44 2345678"
+    ]
 }
